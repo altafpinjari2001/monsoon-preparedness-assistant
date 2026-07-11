@@ -26,6 +26,14 @@ let rainController = null;
  * Initialize the application.
  */
 function init() {
+  // Clear any old demo profile state from previous versions
+  const currentVer = loadFromStorage('monsoonmitra_version', '');
+  if (currentVer !== '2.0_live_gps') {
+    localStorage.removeItem('monsoonmitra_user_profile');
+    localStorage.removeItem('monsoonmitra_is_onboarded');
+    saveToStorage('monsoonmitra_version', '2.0_live_gps');
+  }
+
   setupNavigation();
   setupSettings();
   setupLanguageSelector();
@@ -37,7 +45,7 @@ function init() {
       openOnboardingModal(() => {
         navigateTo('dashboard');
       });
-    }, 400);
+    }, 300);
   }
 }
 
