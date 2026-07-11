@@ -5,7 +5,7 @@
  */
 
 import { createElement, showToast } from '../modules/helpers.js';
-import { getActiveProfile, saveActiveProfile, setOnboarded } from '../modules/profiles.js';
+import { getActiveProfile, saveActiveProfile, setOnboarded, isOnboarded } from '../modules/profiles.js';
 import { getCurrentPosition } from '../modules/weather.js';
 
 /**
@@ -33,13 +33,14 @@ export function openOnboardingModal(onComplete) {
   // Header
   const header = createElement('div', { className: 'modal-header' });
   header.appendChild(createElement('h2', { id: 'onboarding-title' }, '📍 Live Citizen Onboarding & GPS Setup'));
-  const closeBtn = createElement('button', { className: 'modal-close', 'aria-label': 'Close modal' }, '×');
-  closeBtn.addEventListener('click', () => {
-    setOnboarded(true);
-    modal.remove();
-    if (onComplete) onComplete();
-  });
-  header.appendChild(closeBtn);
+  if (isOnboarded()) {
+    const closeBtn = createElement('button', { className: 'modal-close', 'aria-label': 'Close modal' }, '×');
+    closeBtn.addEventListener('click', () => {
+      modal.remove();
+      if (onComplete) onComplete();
+    });
+    header.appendChild(closeBtn);
+  }
   card.appendChild(header);
 
   // Subtitle
