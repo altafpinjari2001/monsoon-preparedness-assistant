@@ -268,6 +268,42 @@ Try asking:
  * @returns {Promise<Object>} Structured categories object
  */
 export async function generatePreparednessPlan(profile) {
+  const apiKey = getApiKey();
+  if (apiKey) {
+    try {
+      const prompt = `You are MonsoonMitra AI. Generate a personalized monsoon preparedness plan in strict JSON format for a citizen in ${profile.location} (${profile.householdType}, ${profile.floor} floor, family size ${profile.familySize}, vulnerable members: ${profile.vulnerableMembers?.join(',') || 'none'}).
+Return ONLY a valid JSON object matching exactly this schema:
+{
+  "documents": [{"id": "doc1", "text": "...", "priority": "high", "checked": false}],
+  "supplies": [{"id": "sup1", "text": "...", "priority": "high", "checked": false}],
+  "homeSafety": [{"id": "home1", "text": "...", "priority": "high", "checked": false}],
+  "health": [{"id": "hlth1", "text": "...", "priority": "high", "checked": false}],
+  "communication": [{"id": "comm1", "text": "...", "priority": "high", "checked": false}]
+}`;
+      const response = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.4,
+          },
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) {
+          const cleanText = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+          const parsed = JSON.parse(cleanText);
+          if (parsed && parsed.documents) return parsed;
+        }
+      }
+    } catch (err) {
+      console.warn('Gemini API JSON generation fallback:', err);
+    }
+  }
+
   const isFloorGround = profile.floor === 'ground';
   const hasElderly = profile.vulnerableMembers?.includes('elderly');
   const hasKids = profile.vulnerableMembers?.includes('children');

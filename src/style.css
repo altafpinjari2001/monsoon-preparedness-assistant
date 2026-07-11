@@ -1999,3 +1999,11 @@ textarea:focus-visible {
   font-size: var(--text-sm);
   color: var(--text-secondary);
 }
+
+.checklist-actions-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}

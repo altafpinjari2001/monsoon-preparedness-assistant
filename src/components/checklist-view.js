@@ -9,6 +9,8 @@ import {
   getCategoryProgress, getOverallProgress, resetChecklist,
 } from '../modules/checklist.js';
 import { t, getCurrentLanguage } from '../modules/i18n.js';
+import { generatePreparednessPlan } from '../modules/gemini.js';
+import { getActiveProfile } from '../modules/profiles.js';
 
 let currentChecklist = [];
 
@@ -48,6 +50,40 @@ export function renderChecklist(container) {
   ));
   header.appendChild(progressSection);
 
+  // Buttons Row
+  const btnsRow = createElement('div', { className: 'checklist-actions-row' });
+
+  // Generate AI Plan Button
+  const genBtn = createElement(
+    'button',
+    {
+      className: 'btn btn-primary',
+      id: 'generate-ai-plan-btn',
+      onClick: async () => {
+        showToast('Generating AI Personalized Preparedness Plan...', 'info');
+        try {
+          const profile = getActiveProfile();
+          const aiPlan = await generatePreparednessPlan(profile);
+          const formattedChecklist = [
+            { id: 'documents', name: 'Documents & Essentials', icon: '📄', items: aiPlan.documents || [] },
+            { id: 'supplies', name: 'Supplies & Rations', icon: '🎒', items: aiPlan.supplies || [] },
+            { id: 'homeSafety', name: 'Home & Structural Safety', icon: '🏠', items: aiPlan.homeSafety || [] },
+            { id: 'health', name: 'Health & Medical', icon: '🏥', items: aiPlan.health || [] },
+            { id: 'communication', name: 'Communication & Power', icon: '📱', items: aiPlan.communication || [] },
+          ];
+          saveChecklist(formattedChecklist);
+          renderChecklist(container);
+          showToast('Personalized Preparedness Plan loaded!', 'success');
+        } catch (err) {
+          console.error(err);
+          showToast('Could not generate plan. Please check API settings.', 'error');
+        }
+      },
+    },
+    '✨ Generate AI Personalized Plan'
+  );
+  btnsRow.appendChild(genBtn);
+
   // Reset button
   const resetBtn = createElement('button', {
     className: 'btn btn-secondary',
@@ -60,8 +96,9 @@ export function renderChecklist(container) {
       showToast('Checklist has been reset', 'info');
     },
   }, `🔄 ${t('reset', lang)}`);
-  header.appendChild(resetBtn);
+  btnsRow.appendChild(resetBtn);
 
+  header.appendChild(btnsRow);
   wrapper.appendChild(header);
 
   // Category sections
