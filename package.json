@@ -1,0 +1,35 @@
+{
+  "name": "monsoon-preparedness-assistant",
+  "version": "1.0.0",
+  "description": "AI-powered Monsoon Preparedness & Citizen Assistance platform built with Gemini AI and Open-Meteo",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "keywords": [
+    "monsoon",
+    "preparedness",
+    "weather",
+    "flood",
+    "gemini-ai",
+    "emergency",
+    "safety"
+  ],
+  "author": "Altaf Pinjari",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^6.0.0",
+    "vitest": "^3.0.0",
+    "eslint": "^9.0.0",
+    "@eslint/js": "^9.0.0",
+    "globals": "^15.0.0",
+    "prettier": "^3.0.0",
+    "eslint-config-prettier": "^10.0.0"
+  }
+}
