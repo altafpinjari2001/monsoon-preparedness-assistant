@@ -222,6 +222,7 @@ function renderExpenseList(wrapper, rootContainer, lang) {
   }
 
   const list = createElement('ul', { className: 'expense-list', 'aria-label': 'List of expenses' });
+  const fragment = document.createDocumentFragment();
 
   for (const expense of budgetData.expenses) {
     const item = createElement('li', { className: 'expense-item' });
@@ -247,9 +248,10 @@ function renderExpenseList(wrapper, rootContainer, lang) {
     );
     item.appendChild(actions);
 
-    list.appendChild(item);
+    fragment.appendChild(item);
   }
-
+  
+  list.appendChild(fragment);
   section.appendChild(list);
   wrapper.appendChild(section);
 }

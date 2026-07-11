@@ -68,4 +68,27 @@ describe('calculateMonsoonRisk', () => {
     expect(risk.score).toBeGreaterThanOrEqual(60);
     expect(risk.factors.length).toBeGreaterThan(0);
   });
+
+  it('should handle undefined weather data safely', () => {
+    const risk = calculateMonsoonRisk(undefined);
+    expect(risk.level).toBe('low');
+    expect(risk.score).toBe(0);
+  });
+
+  it('should handle empty daily array safely', () => {
+    const risk = calculateMonsoonRisk({ daily: [] });
+    expect(risk.level).toBe('low');
+    expect(risk.score).toBe(0);
+  });
+
+  it('should calculate moderate risk for moderate conditions', () => {
+    const weatherData = {
+      daily: [
+        { precipitation: 45, windSpeed: 45, weatherCode: 63 },
+      ],
+    };
+    const risk = calculateMonsoonRisk(weatherData);
+    expect(risk.level).toBe('moderate');
+  });
 });
+

@@ -227,4 +227,32 @@ export function openOnboardingModal(onComplete) {
   card.appendChild(form);
   modal.appendChild(card);
   document.body.appendChild(modal);
+
+  // Focus trap for accessibility
+  const focusableElements = modal.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+  const firstFocusableElement = focusableElements[0];
+  const lastFocusableElement = focusableElements[focusableElements.length - 1];
+
+  modal.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusableElement) {
+          lastFocusableElement.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastFocusableElement) {
+          firstFocusableElement.focus();
+          e.preventDefault();
+        }
+      }
+    }
+  });
+
+  if (firstFocusableElement) {
+    firstFocusableElement.focus();
+  }
 }
+

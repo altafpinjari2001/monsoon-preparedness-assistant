@@ -101,6 +101,10 @@ export function calculateMonsoonRisk(weatherData) {
   let score = 0;
   const factors = [];
 
+  if (!weatherData || !Array.isArray(weatherData.daily)) {
+    return { level: 'low', score: 0, factors: [] };
+  }
+
   const totalPrecip = weatherData.daily.reduce((sum, d) => sum + (d.precipitation || 0), 0);
   if (totalPrecip > 100) { score += 40; factors.push('Very heavy rainfall expected (>100mm)'); }
   else if (totalPrecip > 50) { score += 25; factors.push('Heavy rainfall expected (>50mm)'); }

@@ -101,11 +101,13 @@ export function renderChecklist(container) {
   header.appendChild(btnsRow);
   wrapper.appendChild(header);
 
-  // Category sections
+  // Category sections using DocumentFragment for maximum rendering efficiency
+  const fragment = document.createDocumentFragment();
   for (const category of currentChecklist) {
     const categorySection = renderCategory(category, container);
-    wrapper.appendChild(categorySection);
+    fragment.appendChild(categorySection);
   }
+  wrapper.appendChild(fragment);
 
   container.appendChild(wrapper);
 }
