@@ -83,11 +83,39 @@ const DEFAULT_PROFILE = {
 };
 
 /**
+ * Check if user has completed initial live onboarding.
+ * @returns {boolean}
+ */
+export function isOnboarded() {
+  return loadFromStorage('monsoonmitra_is_onboarded', false);
+}
+
+/**
+ * Set user onboarded flag.
+ * @param {boolean} status
+ */
+export function setOnboarded(status = true) {
+  saveToStorage('monsoonmitra_is_onboarded', status);
+}
+
+/**
  * Get current active user onboarding profile from storage.
  * @returns {Object}
  */
 export function getActiveProfile() {
-  return loadFromStorage('monsoonmitra_user_profile', DEFAULT_PROFILE);
+  return loadFromStorage('monsoonmitra_user_profile', {
+    name: 'Citizen',
+    location: 'Pune',
+    pincode: '411005',
+    latitude: 18.5314,
+    longitude: 73.8446,
+    householdType: 'apartment',
+    floor: 'ground',
+    familySize: 4,
+    vulnerableMembers: [],
+    vehicleOwnership: 'car',
+    language: 'en',
+  });
 }
 
 /**

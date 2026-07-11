@@ -15,6 +15,8 @@ import { initRainAnimation } from './modules/rain.js';
 import { setLanguage, getCurrentLanguage } from './modules/i18n.js';
 import { saveToStorage, loadFromStorage, showToast, sanitizeInput } from './modules/helpers.js';
 import { geocodeCity, getCurrentPosition } from './modules/weather.js';
+import { isOnboarded } from './modules/profiles.js';
+import { openOnboardingModal } from './components/onboarding-modal.js';
 
 // Current view state
 let currentView = 'dashboard';
@@ -29,6 +31,14 @@ function init() {
   setupLanguageSelector();
   initializeRain();
   navigateTo('dashboard');
+
+  if (!isOnboarded()) {
+    setTimeout(() => {
+      openOnboardingModal(() => {
+        navigateTo('dashboard');
+      });
+    }, 400);
+  }
 }
 
 /**

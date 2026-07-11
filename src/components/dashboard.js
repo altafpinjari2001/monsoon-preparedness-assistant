@@ -3,13 +3,14 @@
  * @module components/dashboard
  */
 
-import { createElement, formatDate, loadFromStorage, showToast } from '../modules/helpers.js';
+import { createElement, formatDate } from '../modules/helpers.js';
 import { fetchForecast, calculateMonsoonRisk } from '../modules/weather.js';
 import { fetchFloodData } from '../modules/flood.js';
 import { getOverallProgress, loadChecklist } from '../modules/checklist.js';
 import { loadBudget, calculateRemaining, getTotalSpent, getUtilization } from '../modules/budget.js';
 import { t, getCurrentLanguage } from '../modules/i18n.js';
-import { getActiveProfile, selectDemoProfile, PUNE_DEMO_PROFILES } from '../modules/profiles.js';
+import { getActiveProfile } from '../modules/profiles.js';
+import { openOnboardingModal } from './onboarding-modal.js';
 import { evaluatePhaseAlerts } from '../modules/alert-engine.js';
 
 /**
@@ -35,17 +36,12 @@ export async function renderDashboard(container) {
 
   // Load data
   try {
-    const location = loadFromStorage('monsoonguard_location', null);
-    let coords;
-    let locationName = 'Pune, Maharashtra';
-
-    if (location && location.latitude) {
-      coords = { latitude: location.latitude, longitude: location.longitude };
-      locationName = location.name || 'Your Location';
-    } else {
-      // Default to Pune for MonsoonMitra PromptWars challenge
-      coords = { latitude: 18.5314, longitude: 73.8446 };
-    }
+    const activeProfile = getActiveProfile();
+    const coords = {
+      latitude: activeProfile.latitude || 18.5314,
+      longitude: activeProfile.longitude || 73.8446,
+    };
+    const locationName = activeProfile.location || 'Pune, Maharashtra';
 
     const [weatherData, floodData] = await Promise.all([
       fetchForecast(coords.latitude, coords.longitude),
@@ -358,7 +354,7 @@ function renderEmergencyNumbers(container, lang) {
 }
 
 /**
- * Render user onboarding profile card and 4 prebuilt Pune demo profile switchers.
+ * Render user live onboarding profile card with edit/GPS button.
  * @param {HTMLElement} container
  * @param {HTMLElement} appContainer
  */
@@ -368,36 +364,35 @@ function renderProfileSection(container, appContainer) {
   const card = createElement('div', { className: 'dashboard-section glass-panel profile-section-card' });
 
   const headerRow = createElement('div', { className: 'profile-header-row' });
-  headerRow.appendChild(createElement('h3', { className: 'section-title' }, `👤 Onboarded Citizen: ${activeProfile.name}`));
-  headerRow.appendChild(createElement('span', { className: 'badge badge-info' }, `${activeProfile.householdType?.toUpperCase()} | ${activeProfile.floor?.toUpperCase()} FLOOR`));
+  headerRow.appendChild(createElement('h3', { className: 'section-title' }, `👤 Live Citizen Profile: ${activeProfile.name}`));
+
+  const editBtn = createElement(
+    'button',
+    {
+      className: 'btn btn-sm btn-primary edit-profile-btn',
+      onClick: () => openOnboardingModal(() => renderDashboard(appContainer)),
+    },
+    '✏️ Edit Profile & Relocate (Live GPS)'
+  );
+  headerRow.appendChild(editBtn);
   card.appendChild(headerRow);
 
-  card.appendChild(createElement('p', { className: 'profile-loc-text' }, `📍 Location: ${activeProfile.location} (Pincode: ${activeProfile.pincode}) | Household: ${activeProfile.familySize} members`));
+  const badgeRow = createElement(
+    'div',
+    { className: 'profile-badge-row' },
+    createElement('span', { className: 'badge badge-info' }, `${activeProfile.householdType?.toUpperCase() || 'RESIDENCE'} | ${activeProfile.floor?.toUpperCase() || 'GROUND'} FLOOR`),
+    createElement('span', { className: 'badge badge-success' }, `LIVE GPS: ${activeProfile.latitude}, ${activeProfile.longitude}`)
+  );
+  card.appendChild(badgeRow);
 
-  // 4 Pune Demo Profile Buttons
-  const demoTitle = createElement('p', { className: 'demo-profiles-title' }, '⚡ Instant Demo Profiles (PromptWars Hackathon Judge Evaluation):');
-  card.appendChild(demoTitle);
+  card.appendChild(
+    createElement(
+      'p',
+      { className: 'profile-loc-text' },
+      `📍 City / Locality: ${activeProfile.location} (Pincode: ${activeProfile.pincode || '--'}) | Household: ${activeProfile.familySize} members`
+    )
+  );
 
-  const btnsWrap = createElement('div', { className: 'demo-profile-buttons' });
-
-  for (const demo of PUNE_DEMO_PROFILES) {
-    const btn = createElement(
-      'button',
-      {
-        className: `btn btn-sm ${activeProfile.id === demo.id ? 'btn-primary' : 'btn-outline'}`,
-        title: demo.description,
-      },
-      `🏷️ ${demo.name.split(' (')[0]}`
-    );
-    btn.addEventListener('click', () => {
-      selectDemoProfile(demo.id);
-      showToast(`Switched to demo profile: ${demo.name}`, 'success');
-      renderDashboard(appContainer);
-    });
-    btnsWrap.appendChild(btn);
-  }
-
-  card.appendChild(btnsWrap);
   container.appendChild(card);
 }
 
