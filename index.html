@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="MonsoonGuard - AI-powered monsoon preparedness assistant. Get personalized safety plans, real-time weather alerts, emergency checklists, and multilingual guidance for monsoon season.">
-  <meta name="keywords" content="monsoon preparedness, flood alerts, weather safety, emergency checklist, AI assistant">
-  <title>MonsoonGuard - AI Monsoon Preparedness Assistant</title>
+  <meta name="description" content="MonsoonMitra - GenAI-powered monsoon preparedness & citizen assistance web app. Get personalized safety plans, RAG-grounded guidance, Pune travel advisories, and community waterlogging maps.">
+  <meta name="keywords" content="monsoon preparedness, Pune flood alert, weather safety, emergency checklist, AI assistant, PromptWars">
+  <title>MonsoonMitra - GenAI Monsoon Preparedness &amp; Citizen Assistance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -25,7 +25,7 @@
           <path d="M18 8 C18 8 12 16 12 21 C12 24.3 14.7 27 18 27 C21.3 27 24 24.3 24 21 C24 16 18 8 18 8Z" fill="url(#logoGrad)"/>
           <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2DD4BF"/><stop offset="100%" stop-color="#06B6D4"/></linearGradient></defs>
         </svg>
-        <h1 class="app-title">MonsoonGuard</h1>
+        <h1 class="app-title">MonsoonMitra</h1>
       </div>
       <nav class="main-nav" aria-label="Main navigation">
         <button class="nav-btn active" data-view="dashboard" aria-label="Dashboard view" id="nav-dashboard">
@@ -34,7 +34,15 @@
         </button>
         <button class="nav-btn" data-view="checklist" aria-label="Emergency checklist" id="nav-checklist">
           <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4H16V16H4V4ZM6 8H9L7 10.5L9 13H6L4 10.5L6 8ZM11 9H15V10H11V9ZM11 12H15V13H11V12Z" fill="currentColor"/></svg>
-          <span>Checklist</span>
+          <span>Prep Plan</span>
+        </button>
+        <button class="nav-btn" data-view="travel" aria-label="Pune travel advisory" id="nav-travel">
+          <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M18 6L14 2H6L2 6V18H18V6ZM4 7.5A1.5 1.5 0 1 1 5.5 9 1.5 1.5 0 0 1 4 7.5ZM16 7.5A1.5 1.5 0 1 1 14.5 6 1.5 1.5 0 0 1 16 7.5Z" fill="currentColor"/></svg>
+          <span>Travel</span>
+        </button>
+        <button class="nav-btn" data-view="community" aria-label="Citizen hazard map" id="nav-community">
+          <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2C6.69 2 4 4.69 4 8C4 12.5 10 18 10 18C10 18 16 12.5 16 8C16 4.69 13.31 2 10 2ZM10 10.5C8.62 10.5 7.5 9.38 7.5 8C7.5 6.62 8.62 5.5 10 5.5C11.38 5.5 12.5 6.62 12.5 8C12.5 9.38 11.38 10.5 10 10.5Z" fill="currentColor"/></svg>
+          <span>Map</span>
         </button>
         <button class="nav-btn" data-view="budget" aria-label="Budget planner" id="nav-budget">
           <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2C5.58 2 2 5.58 2 10C2 14.42 5.58 18 10 18C14.42 18 10 18 10 18V2Z" fill="currentColor" opacity="0.3"/><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/><text x="10" y="13" text-anchor="middle" font-size="8" fill="currentColor">₹</text></svg>

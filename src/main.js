@@ -9,6 +9,8 @@ import { renderDashboard } from './components/dashboard.js';
 import { renderChecklist } from './components/checklist-view.js';
 import { renderBudget } from './components/budget-view.js';
 import { renderAdvisor } from './components/advisor-view.js';
+import { renderTravel } from './components/travel-view.js';
+import { renderCommunityMap } from './components/community-view.js';
 import { initRainAnimation } from './modules/rain.js';
 import { setLanguage, getCurrentLanguage } from './modules/i18n.js';
 import { saveToStorage, loadFromStorage, showToast, sanitizeInput } from './modules/helpers.js';
@@ -44,7 +46,7 @@ function setupNavigation() {
 
 /**
  * Navigate to a view.
- * @param {string} view - View name ('dashboard', 'checklist', 'budget', 'advisor')
+ * @param {string} view - View name ('dashboard', 'checklist', 'travel', 'community', 'budget', 'advisor')
  */
 function navigateTo(view) {
   currentView = view;
@@ -65,6 +67,12 @@ function navigateTo(view) {
       break;
     case 'checklist':
       renderChecklist(container);
+      break;
+    case 'travel':
+      renderTravel(container);
+      break;
+    case 'community':
+      renderCommunityMap(container);
       break;
     case 'budget':
       renderBudget(container);

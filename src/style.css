@@ -1750,3 +1750,252 @@ textarea:focus-visible {
     background: Highlight;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   23. MONSOONMITRA PUNE PROFILES & ALERTS
+   ───────────────────────────────────────────────────────────── */
+.profile-section-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  border-left: 4px solid var(--color-accent);
+}
+
+.profile-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.profile-loc-text {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.demo-profiles-title {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: var(--space-2);
+}
+
+.demo-profile-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.phase-alerts-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.alert-banner {
+  border-left: 5px solid var(--color-info);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.alert-banner.border-critical {
+  border-left-color: var(--color-danger);
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.12) 0%, var(--glass-bg) 40%);
+}
+
+.alert-banner.border-moderate {
+  border-left-color: var(--color-warning);
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.12) 0%, var(--glass-bg) 40%);
+}
+
+.alert-banner.border-advisory {
+  border-left-color: var(--color-accent);
+  background: linear-gradient(90deg, rgba(45, 212, 191, 0.12) 0%, var(--glass-bg) 40%);
+}
+
+.alert-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.alert-phase-badge {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+
+.alert-banner-title {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.alert-banner-desc {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.alert-banner-action {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+/* Travel Advisory View */
+.travel-view,
+.community-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.route-select-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: var(--space-4);
+}
+
+.route-arrow {
+  padding-bottom: var(--space-3);
+  font-size: var(--text-xl);
+}
+
+.route-select {
+  width: 100%;
+}
+
+.route-result-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border-left: 4px solid var(--color-info);
+}
+
+.route-result-card.border-critical {
+  border-left-color: var(--color-danger);
+}
+
+.route-result-card.border-moderate {
+  border-left-color: var(--color-warning);
+}
+
+.route-result-card.border-low {
+  border-left-color: var(--color-success);
+}
+
+.route-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.route-title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.route-advice-main {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.route-details-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-left: 0;
+  color: var(--text-secondary);
+}
+
+/* Community Map View */
+.community-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--space-6);
+}
+
+@media (max-width: 900px) {
+  .community-grid,
+  .route-select-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.osm-frame-container {
+  width: 100%;
+  height: 380px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.osm-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.hazard-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.reports-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.report-card {
+  padding: var(--space-4);
+  background: var(--color-bg-raised);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-info);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.report-card.border-high {
+  border-left-color: var(--color-danger);
+}
+
+.report-card.border-moderate {
+  border-left-color: var(--color-warning);
+}
+
+.report-card.border-low {
+  border-left-color: var(--color-success);
+}
+
+.report-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.report-type {
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+}
+
+.report-loc {
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.report-details {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}

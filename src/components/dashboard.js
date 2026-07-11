@@ -3,13 +3,14 @@
  * @module components/dashboard
  */
 
-import { createElement, formatDate } from '../modules/helpers.js';
+import { createElement, formatDate, loadFromStorage, showToast } from '../modules/helpers.js';
 import { fetchForecast, calculateMonsoonRisk } from '../modules/weather.js';
 import { fetchFloodData } from '../modules/flood.js';
 import { getOverallProgress, loadChecklist } from '../modules/checklist.js';
 import { loadBudget, calculateRemaining, getTotalSpent, getUtilization } from '../modules/budget.js';
 import { t, getCurrentLanguage } from '../modules/i18n.js';
-import { loadFromStorage } from '../modules/helpers.js';
+import { getActiveProfile, selectDemoProfile, PUNE_DEMO_PROFILES } from '../modules/profiles.js';
+import { evaluatePhaseAlerts } from '../modules/alert-engine.js';
 
 /**
  * Render the dashboard view.
@@ -20,6 +21,9 @@ export async function renderDashboard(container) {
   const lang = getCurrentLanguage();
 
   const grid = createElement('div', { className: 'dashboard-grid' });
+
+  // 1. Pune Citizen Onboarding & Demo Profiles Card
+  renderProfileSection(grid, container);
 
   // Loading state
   const loadingSection = createElement('div', { className: 'dashboard-section glass-panel loading-state' },
@@ -33,14 +37,14 @@ export async function renderDashboard(container) {
   try {
     const location = loadFromStorage('monsoonguard_location', null);
     let coords;
-    let locationName = 'Mumbai, India';
+    let locationName = 'Pune, Maharashtra';
 
     if (location && location.latitude) {
       coords = { latitude: location.latitude, longitude: location.longitude };
       locationName = location.name || 'Your Location';
     } else {
-      // Default to Mumbai
-      coords = { latitude: 19.076, longitude: 72.8777 };
+      // Default to Pune for MonsoonMitra PromptWars challenge
+      coords = { latitude: 18.5314, longitude: 73.8446 };
     }
 
     const [weatherData, floodData] = await Promise.all([
@@ -54,6 +58,12 @@ export async function renderDashboard(container) {
 
     // Clear loading state
     grid.textContent = '';
+
+    // 1. Pune Citizen Profile & Demo Profile Switcher
+    renderProfileSection(grid, container);
+
+    // 2. Real-Time Phase Alert Banners (Before / During / After)
+    renderPhaseAlerts(grid, weatherData, floodData);
 
     // Build dashboard sections
     renderCurrentWeather(grid, weatherData, locationName, lang);
@@ -345,4 +355,81 @@ function renderEmergencyNumbers(container, lang) {
 
   section.appendChild(numbersGrid);
   container.appendChild(section);
+}
+
+/**
+ * Render user onboarding profile card and 4 prebuilt Pune demo profile switchers.
+ * @param {HTMLElement} container
+ * @param {HTMLElement} appContainer
+ */
+function renderProfileSection(container, appContainer) {
+  const activeProfile = getActiveProfile();
+
+  const card = createElement('div', { className: 'dashboard-section glass-panel profile-section-card' });
+
+  const headerRow = createElement('div', { className: 'profile-header-row' });
+  headerRow.appendChild(createElement('h3', { className: 'section-title' }, `👤 Onboarded Citizen: ${activeProfile.name}`));
+  headerRow.appendChild(createElement('span', { className: 'badge badge-info' }, `${activeProfile.householdType?.toUpperCase()} | ${activeProfile.floor?.toUpperCase()} FLOOR`));
+  card.appendChild(headerRow);
+
+  card.appendChild(createElement('p', { className: 'profile-loc-text' }, `📍 Location: ${activeProfile.location} (Pincode: ${activeProfile.pincode}) | Household: ${activeProfile.familySize} members`));
+
+  // 4 Pune Demo Profile Buttons
+  const demoTitle = createElement('p', { className: 'demo-profiles-title' }, '⚡ Instant Demo Profiles (PromptWars Hackathon Judge Evaluation):');
+  card.appendChild(demoTitle);
+
+  const btnsWrap = createElement('div', { className: 'demo-profile-buttons' });
+
+  for (const demo of PUNE_DEMO_PROFILES) {
+    const btn = createElement(
+      'button',
+      {
+        className: `btn btn-sm ${activeProfile.id === demo.id ? 'btn-primary' : 'btn-outline'}`,
+        title: demo.description,
+      },
+      `🏷️ ${demo.name.split(' (')[0]}`
+    );
+    btn.addEventListener('click', () => {
+      selectDemoProfile(demo.id);
+      showToast(`Switched to demo profile: ${demo.name}`, 'success');
+      renderDashboard(appContainer);
+    });
+    btnsWrap.appendChild(btn);
+  }
+
+  card.appendChild(btnsWrap);
+  container.appendChild(card);
+}
+
+/**
+ * Render real-time Before / During / After Phase Alerts.
+ * @param {HTMLElement} container
+ * @param {Object} weather
+ * @param {Object} flood
+ */
+function renderPhaseAlerts(container, weather, flood) {
+  const alerts = evaluatePhaseAlerts(weather, flood);
+  if (!alerts || alerts.length === 0) return;
+
+  const wrapper = createElement('div', { className: 'dashboard-section phase-alerts-section' });
+
+  for (const alert of alerts) {
+    const banner = createElement('div', { className: `glass-panel alert-banner border-${alert.severity.toLowerCase()}` });
+
+    const topRow = createElement(
+      'div',
+      { className: 'alert-top-row' },
+      createElement('strong', { className: 'alert-phase-badge' }, alert.phase),
+      createElement('span', { className: `badge badge-${alert.severity.toLowerCase()}` }, alert.severity)
+    );
+    banner.appendChild(topRow);
+
+    banner.appendChild(createElement('h4', { className: 'alert-banner-title' }, alert.title));
+    banner.appendChild(createElement('p', { className: 'alert-banner-desc' }, alert.description));
+    banner.appendChild(createElement('div', { className: 'alert-banner-action' }, `💡 Action Required: ${alert.action}`));
+
+    wrapper.appendChild(banner);
+  }
+
+  container.appendChild(wrapper);
 }
