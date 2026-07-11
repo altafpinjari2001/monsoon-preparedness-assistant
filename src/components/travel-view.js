@@ -5,17 +5,31 @@
 
 import { createElement } from '../modules/helpers.js';
 import { PUNE_LOCALITIES, calculateRouteAdvisory } from '../modules/travel.js';
+import { fetchForecast } from '../modules/weather.js';
 
 let selectedSource = PUNE_LOCALITIES[0].name;
 let selectedDest = PUNE_LOCALITIES[2].name;
+let cachedWeather = null;
 
 /**
- * Render the travel advisory view.
+ * Render the travel advisory view with live Open-Meteo weather data.
  * @param {HTMLElement} container
  * @param {Object} [weatherData]
  */
-export function renderTravel(container, weatherData = {}) {
+export async function renderTravel(container, weatherData = null) {
   container.textContent = '';
+
+  let activeWeather = weatherData || cachedWeather;
+  if (!activeWeather) {
+    try {
+      const forecast = await fetchForecast(18.5314, 73.8446);
+      activeWeather = forecast.current;
+      cachedWeather = activeWeather;
+    } catch (e) {
+      console.warn('Live weather fetch for travel advisory fallback:', e);
+      activeWeather = { precipitation: 0, windSpeed: 10 };
+    }
+  }
 
   const wrapper = createElement('div', { className: 'travel-view' });
 
@@ -47,7 +61,7 @@ export function renderTravel(container, weatherData = {}) {
   }
   sourceSelect.addEventListener('change', (e) => {
     selectedSource = e.target.value;
-    renderTravel(container, weatherData);
+    renderTravel(container, activeWeather);
   });
   sourceGroup.appendChild(sourceSelect);
   formGrid.appendChild(sourceGroup);
@@ -66,7 +80,7 @@ export function renderTravel(container, weatherData = {}) {
   }
   destSelect.addEventListener('change', (e) => {
     selectedDest = e.target.value;
-    renderTravel(container, weatherData);
+    renderTravel(container, activeWeather);
   });
   destGroup.appendChild(destSelect);
   formGrid.appendChild(destGroup);
@@ -75,7 +89,7 @@ export function renderTravel(container, weatherData = {}) {
   wrapper.appendChild(formPanel);
 
   // Calculate & Display Advisory
-  const advisory = calculateRouteAdvisory(selectedSource, selectedDest, weatherData);
+  const advisory = calculateRouteAdvisory(selectedSource, selectedDest, activeWeather);
 
   const resultCard = createElement('div', { className: `glass-panel route-result-card border-${advisory.riskLevel.toLowerCase()}` });
 
