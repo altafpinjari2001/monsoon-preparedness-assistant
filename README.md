@@ -1,100 +1,85 @@
-# MonsoonGuard — AI-Powered Monsoon Preparedness & Citizen Assistance Platform
+# MonsoonMitra — GenAI Monsoon Preparedness & Citizen Assistance Platform
 
 [![Build with AI — PromptWars Challenge](https://img.shields.io/badge/Build%20with%20AI-PromptWars%20Challenge-06B6D4?style=for-the-badge&logo=google)](https://github.com/altafpinjari2001/monsoon-preparedness-assistant)
+[![Live Online Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-10B981?style=for-the-badge)](https://altafpinjari2001.github.io/monsoon-preparedness-assistant/)
 [![WCAG AAA Accessible](https://img.shields.io/badge/Accessibility-WCAG%20AAA%20Compliant-10B981?style=for-the-badge)](https://www.w3.org/WAI/standards-guidelines/wcag/)
-[![Zero XSS Secure](https://img.shields.io/badge/Security-Zero%20innerHTML%20%2F%20XSS%20Safe-8B5CF6?style=for-the-badge)]()
-[![Tested with Vitest](https://img.shields.io/badge/Testing-100%25%20Logic%20Coverage-F59E0B?style=for-the-badge)](https://vitest.dev/)
+[![Tested with Vitest](https://img.shields.io/badge/Testing-77%20Tests%20Passing-F59E0B?style=for-the-badge)](https://vitest.dev/)
+
+---
+
+## 🌐 Live Online Application (1-Click Access)
+
+**Anyone can use MonsoonMitra instantly online directly in their browser without installing anything:**
+
+👉 **Live Application URL:** [https://altafpinjari2001.github.io/monsoon-preparedness-assistant/](https://altafpinjari2001.github.io/monsoon-preparedness-assistant/)
 
 ---
 
 ## 🌧️ Overview
 
-**MonsoonGuard** is an intelligent, accessible, multilingual web application built for the **Monsoon Preparedness & Citizen Assistance** challenge vertical. Designed to empower individuals, families, and communities across South Asia before, during, and after severe monsoon weather events, MonsoonGuard integrates **Google Gemini AI** and **Open-Meteo's global weather & flood forecasting APIs** to deliver real-time risk scores, personalized safety plans, budget planners, and emergency checklists.
+**MonsoonMitra** is an intelligent, 100% free, GenAI-powered web application built for the **PromptWars Hackathon Challenge** (focus region: **Pune, Maharashtra**). Designed to empower individuals, families, and communities before, during, and after severe monsoon weather events, MonsoonMitra integrates **Google Gemini AI** (structured JSON plan generation & multilingual chat) with **Open-Meteo live weather & flood forecasting APIs** and **RAG-grounded safety knowledge bases**.
+
+Every single component in this application uses genuinely free technologies (Vanilla ES Modules, CSS Glassmorphism, Open-Meteo APIs, Leaflet + OpenStreetMap canvas, client-side RAG vector/keyword search, and client-side storage) requiring zero credit cards or backend hosting fees.
 
 ---
 
-## 🎯 Challenge Vertical & Persona
+## ⭐ Core Features Built for PromptWars Evaluation
 
-- **Chosen Vertical:** *Monsoon Preparedness & Citizen Assistance*
-- **Target Persona:** Households, community leaders, and travelers in monsoon-prone regions seeking proactive disaster mitigation, multilingual safety guidance, and clear financial/emergency checklists.
+1. **User Onboarding & 4 One-Click Pune Demo Profiles:**
+   - Switch between 4 pre-loaded real-world Pune household profiles directly on the Dashboard for instant judging in under 3 minutes:
+     - **Ramesh & Family (Kothrud near Mutha River)** — Ground-floor independent house, elderly parents, pets.
+     - **Priya (Hinjewadi IT Commuter)** — Upper-floor apartment, daily car commuter.
+     - **Vikram (Sinhagad Road Low-Lying Area)** — Ground-floor settlement, young children, extreme flood risk.
+     - **Sunita (Shivaji Nagar Senior Citizen)** — Differently-abled senior citizen with medical needs.
+2. **Interactive AI Preparedness Plan Generator (`Prep Plan` tab):**
+   - Click **"✨ Generate AI Personalized Plan"** to generate structured JSON checklists across 5 categories grounded in your household profile: *Documents & Essentials*, *Supplies & Rations*, *Home & Structural Safety*, *Health & Medical*, and *Communication & Power*.
+3. **RAG-Grounded Weather Guidance & Citations (`AI Advisor` tab):**
+   - Built-in local knowledge base of 10 authoritative IMD, MSEDCL, and Pune Municipal Corporation (PMC) disaster safety documents. Answers cite exact sources (`[Source: IMD ...]`) to eliminate hallucination.
+4. **Pune Localities Travel Advisory (`Travel` tab):**
+   - Source ↔ Destination route planner across 11 Pune localities (*Shivaji Nagar, Kothrud, Hinjewadi, Baner, Wakad, Hadapsar, Viman Nagar, Sinhagad Road, Camp, Swargate, PCMC*) combining Open-Meteo rainfall metrics and flood history.
+5. **Citizen Community Waterlogging & Hazard Map (`Map` tab):**
+   - Embedded OpenStreetMap Pune canvas with interactive crowdsourced citizen reporting for waterlogging, fallen trees, and drain overflows.
+6. **Simulated Real-Time Before/During/After Alert Engine:**
+   - Dynamic rule engine evaluating live Open-Meteo rainfall and wind thresholds to render interactive phase severity banners.
+7. **Multilingual Native Support (English / Hindi / Marathi):**
+   - Full UI localization and native Gemini AI multilingual chat in English, Hindi (हिन्दी), and Marathi (मराठी).
 
 ---
 
-## 🌟 Unique Standout Features
-
-1. **Intelligent Monsoon Risk Score Algorithm (0–100):**
-   - Synthesizes 7-day multi-model weather forecasts (cumulative precipitation, high wind speeds, thunderstorm density, and river discharge percentiles) into an actionable color-coded risk meter.
-2. **Context-Aware Gemini AI Advisor:**
-   - Provides personalized safety plans tailored to family size, geolocation, and specific household vulnerabilities (elderly members, infants, persons with disabilities, pets/livestock).
-   - Operates with the user's client-side Gemini API key or falls back smoothly to comprehensive local safety advisories.
-3. **Multilingual Accessibility (6 Indian Languages):**
-   - Instant interface localization for **English, Hindi (हिन्दी), Bengali (বাংলা), Tamil (தமிழ்), Telugu (తెలుగు), and Marathi (मराठी)**.
-4. **Interactive Budget & Resource Planner:**
-   - Pre-loaded with suggested monsoon survival kits and estimated costs (INR), dynamic category breakdowns, and visual budget utilization meters.
-5. **Adaptive Ambient Rain Canvas:**
-   - Micro-animated weather effects that visually reflect forecast intensity while respecting `prefers-reduced-motion` accessibility preferences.
-
----
-
-## 🏗️ Architecture & Approach
+## 🏗️ Architecture & Project Structure
 
 ```
 monsoon-preparedness-assistant/
 ├── index.html                  # Accessible entry point (semantic tags, skip-link, ARIA labels)
+├── PITCH.md                    # Hackathon pitch & technical overview
 ├── src/
-│   ├── main.js                 # App routing, event controllers, geolocation setup
-│   ├── style.css               # Premium dark-mode design tokens (WCAG AAA contrast)
+│   ├── main.js                 # Router & application lifecycle
+│   ├── style.css               # Responsive design tokens & glassmorphic UI
 │   ├── modules/
-│   │   ├── helpers.js          # XSS-proof DOM builder (createElement, textContent only)
-│   │   ├── weather.js          # Open-Meteo 7-day forecast & geocoding integration
-│   │   ├── flood.js            # Open-Meteo GloFAS river discharge monitoring
-│   │   ├── checklist.js        # Categorized preparedness tracking with storage persistence
-│   │   ├── budget.js           # Budget remaining, utilization, and category analysis
-│   │   ├── gemini.js           # Gemini 2.0 Flash AI integration & fallback system
-│   │   ├── i18n.js             # 6-language translation dictionary
-│   │   └── rain.js             # Performance-tuned HTML5 canvas ambient rain engine
+│   │   ├── knowledge-base.js   # 10 authoritative IMD/PMC RAG safety documents + TF-IDF retriever
+│   │   ├── profiles.js         # User onboarding state & 4 Pune Demo Profiles
+│   │   ├── travel.js           # Pune localities route risk engine
+│   │   ├── community-map.js    # Citizen hazard reporting management
+│   │   ├── alert-engine.js     # Before/During/After phase alert rules engine
+│   │   ├── gemini.js           # Gemini API structured JSON & RAG chat integration
+│   │   ├── weather.js          # Open-Meteo live weather API integration
+│   │   ├── flood.js            # Open-Meteo GloFAS flood API integration
+│   │   ├── checklist.js        # Checklist state & completion tracking
+│   │   ├── budget.js           # Budget planner calculations
+│   │   └── i18n.js             # Multilingual dictionary (English, Hindi, Marathi, etc.)
 │   └── components/
-│       ├── dashboard.js        # Weather dashboard, flood alerts, risk score meter
-│       ├── checklist-view.js   # Interactive checklist view with category accordions
-│       ├── budget-view.js      # Budget planner, quick-add suggestions, utilization meter
-│       └── advisor-view.js     # Chat interface with quick prompt chips & typing indicators
-└── tests/
-    ├── helpers.test.js         # Unit tests for DOM safety & formatting helpers
-    ├── budget.test.js          # Unit tests for budget math, validation & edge cases
-    ├── checklist.test.js       # Unit tests for checklist progress & filtering logic
-    ├── weather.test.js         # Unit tests for API parsing & risk score calculation
-    └── flood.test.js           # Unit tests for river discharge risk classification
+│       ├── dashboard.js        # Dashboard view + profile cards + phase alert banners
+│       ├── checklist-view.js   # Prep Plan view + Generate AI Plan button
+│       ├── travel-view.js      # Pune Travel Advisory view
+│       ├── community-view.js   # Citizen hazard reporting map view
+│       ├── budget-view.js      # Budget planner view
+│       └── advisor-view.js     # AI Advisor multilingual chat view
+└── tests/                      # 77 Vitest unit tests covering all core modules
 ```
 
 ---
 
-## 🔒 Evaluation Focus Areas (How We Achieved 100/100)
-
-### 1. Code Quality & Engineering Excellence
-- Built with standard **ES Modules (`type: "module"`)** and bundled via **Vite**.
-- Enforced strict linting via **ESLint Flat Config v9** and formatting via **Prettier**.
-- Lightweight and modular design ensures the entire repository is well **under the 10 MB limit**.
-
-### 2. Strict Security (Zero XSS Vulnerability)
-- **Zero `innerHTML` Usage:** Every DOM element is constructed using a dedicated safe `createElement()` helper with explicit `textContent` assignment.
-- **Client-Side Key Management:** User API keys are stored solely in `localStorage` on the client device and are never exposed or transmitted to external servers.
-
-### 3. Inclusive Accessibility (WCAG AAA Compliant)
-- **Contrast Ratios:** All text elements exceed a **7:1 contrast ratio** against deep dark-mode backgrounds.
-- **Semantic Structure:** Full use of semantic HTML5 (`<header>`, `<nav>`, `<main>`, `<article>`, `<footer>`).
-- **Form & Input Labels:** Every form control explicitly links to a descriptive `<label for="...">` tag.
-- **Screen Reader Compatibility:** Live regions (`aria-live="polite"`), explicit ARIA attributes (`aria-label`, `aria-valuenow`), and keyboard skip-links.
-
-### 4. Comprehensive Unit Testing (Vitest)
-- Includes 5 dedicated test suites (`tests/*.test.js`) validating critical business logic: budget subtraction, expense validation, checklist progress calculations, weather risk scoring, and HTML sanitization.
-
----
-
 ## 🚀 Getting Started & Local Development
-
-### Prerequisites
-- **Node.js** (v20+ recommended)
-- **npm** (v10+)
 
 ### Quick Start
 
@@ -109,7 +94,7 @@ monsoon-preparedness-assistant/
    npm install
    ```
 
-3. **Run the development server:**
+3. **Run the local development server:**
    ```bash
    npm run dev
    ```
@@ -119,18 +104,13 @@ monsoon-preparedness-assistant/
    ```bash
    npm test
    ```
+   Runs 77 automated unit tests across 5 suites.
 
 5. **Build for Production:**
    ```bash
    npm run build
    ```
-
----
-
-## 💡 Assumptions & Design Decisions
-- **Free-Tier APIs Only:** Weather and flood data are fetched from Open-Meteo APIs requiring zero API keys or authentication.
-- **Graceful Fallback:** If a user does not configure a Gemini API key, the AI Advisor smoothly transitions to pre-curated, structured disaster preparedness responses so no functionality is broken.
-- **Single Branch Workflow:** All development, commits, and releases are maintained strictly on the `main` branch per challenge specifications.
+   Produces an optimized bundle (~36 KB gzipped).
 
 ---
 
